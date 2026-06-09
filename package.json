@@ -1,0 +1,14 @@
+{
+  "name": "minecraft-js-clone",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A faithful Minecraft clone built with Three.js — procedural infinite terrain, biomes, caves, lighting, physics and more.",
+  "scripts": {
+    "start": "npx -y serve -l 5173 .",
+    "test": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "three": "0.169.0"
+  }
+}

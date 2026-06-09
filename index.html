@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Minecraft JS — Three.js Voxel Clone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<!-- ======================= HUD (in game) ======================= -->
+<div id="hud" class="hidden">
+  <div id="crosshair"></div>
+  <div id="item-name"></div>
+  <div id="hotbar"></div>
+  <div id="debug" class="hidden"></div>
+  <div id="underwater-overlay"></div>
+  <div id="damage-vignette"></div>
+</div>
+
+<!-- ======================= Inventory picker ======================= -->
+<div id="picker" class="overlay hidden">
+  <div class="picker-window">
+    <div class="picker-title">Select Block <span class="picker-hint">(click a block to put it in the selected hotbar slot — E / Esc to close)</span></div>
+    <div id="picker-grid"></div>
+    <div id="picker-hotbar" class="picker-hotbar"></div>
+  </div>
+</div>
+
+<!-- ======================= Title screen ======================= -->
+<div id="title-screen" class="overlay">
+  <div class="title-stack">
+    <div class="mc-logo">MINECRAFT</div>
+    <div class="mc-sublogo">JS CLONE EDITION</div>
+    <div class="splash" id="splash-text">Now in JavaScript!</div>
+    <div class="menu-buttons">
+      <button class="mc-button" id="btn-play">Play World</button>
+      <div class="seed-row">
+        <input id="seed-input" type="text" placeholder="Seed (leave empty = random)" spellcheck="false" />
+        <button class="mc-button small" id="btn-new-world">Create New World</button>
+      </div>
+      <button class="mc-button" id="btn-title-controls">Controls</button>
+    </div>
+    <div class="title-footer">
+      <span>Three.js Voxel Engine</span>
+      <span>Not affiliated with Mojang</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= Loading screen ======================= -->
+<div id="loading-screen" class="overlay hidden">
+  <div class="loading-stack">
+    <div class="loading-text">Building terrain…</div>
+    <div class="loading-bar"><div id="loading-fill"></div></div>
+    <div class="loading-tip" id="loading-tip">Tip: Double-tap SPACE to fly</div>
+  </div>
+</div>
+
+<!-- ======================= Pause menu ======================= -->
+<div id="pause-menu" class="overlay hidden">
+  <div class="menu-stack">
+    <div class="menu-title">Game Paused</div>
+    <button class="mc-button" id="btn-resume">Back to Game</button>
+    <button class="mc-button" id="btn-options">Options…</button>
+    <button class="mc-button" id="btn-controls">Controls</button>
+    <button class="mc-button" id="btn-quit">Save &amp; Quit to Title</button>
+  </div>
+</div>
+
+<!-- ======================= Options ======================= -->
+<div id="options-menu" class="overlay hidden">
+  <div class="menu-stack wide">
+    <div class="menu-title">Options</div>
+    <div class="opt-row"><label>Render Distance: <span id="val-render">7</span> chunks</label><input type="range" id="opt-render" min="4" max="12" step="1" /></div>
+    <div class="opt-row"><label>Field of View: <span id="val-fov">70</span></label><input type="range" id="opt-fov" min="40" max="110" step="1" /></div>
+    <div class="opt-row"><label>Mouse Sensitivity: <span id="val-sens">100</span>%</label><input type="range" id="opt-sens" min="20" max="300" step="5" /></div>
+    <div class="opt-row"><label>Volume: <span id="val-vol">70</span>%</label><input type="range" id="opt-vol" min="0" max="100" step="5" /></div>
+    <div class="opt-row checks">
+      <button class="mc-button small toggle" id="opt-bob">View Bobbing: ON</button>
+      <button class="mc-button small toggle" id="opt-clouds">Clouds: ON</button>
+      <button class="mc-button small toggle" id="opt-music">Music: ON</button>
+      <button class="mc-button small toggle" id="opt-smooth">Smooth Lighting: ON</button>
+    </div>
+    <button class="mc-button" id="btn-options-done">Done</button>
+  </div>
+</div>
+
+<!-- ======================= Controls help ======================= -->
+<div id="controls-menu" class="overlay hidden">
+  <div class="menu-stack wide">
+    <div class="menu-title">Controls</div>
+    <div class="controls-grid">
+      <span>Move</span><span>W A S D</span>
+      <span>Jump / Swim up</span><span>SPACE</span>
+      <span>Sneak (edge-safe)</span><span>SHIFT</span>
+      <span>Sprint</span><span>CTRL or double-tap W</span>
+      <span>Fly (toggle)</span><span>Double-tap SPACE</span>
+      <span>Fly up / down</span><span>SPACE / SHIFT</span>
+      <span>Break block</span><span>Hold LEFT CLICK</span>
+      <span>Place block</span><span>RIGHT CLICK</span>
+      <span>Pick block</span><span>MIDDLE CLICK</span>
+      <span>Select slot</span><span>1–9 or MOUSE WHEEL</span>
+      <span>Block inventory</span><span>E</span>
+      <span>Debug info</span><span>F3</span>
+      <span>Pause</span><span>ESC</span>
+    </div>
+    <div class="controls-note">Creative-style: blocks are infinite. TNT explodes when broken!</div>
+    <button class="mc-button" id="btn-controls-done">Done</button>
+  </div>
+</div>
+
+<div id="webgl-error" class="overlay hidden">
+  <div class="menu-stack"><div class="menu-title">WebGL is not available in this browser :(</div></div>
+</div>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
