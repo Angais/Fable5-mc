@@ -1,4 +1,6 @@
-# Minecraft JS — a Three.js voxel clone
+# Voxel Game Test
+
+> **Disclaimer:** Voxel Game Test is not related to, endorsed by, sponsored by, or affiliated with Microsoft, Mojang, or Minecraft. This is a non-commercial test project made for learning and experimentation under fair use.
 
 A faithful Minecraft clone that runs entirely in the browser with [Three.js](https://threejs.org/).
 No build step, no image or sound assets — every texture is procedurally painted onto canvases
